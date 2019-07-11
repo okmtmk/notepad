@@ -1,5 +1,6 @@
 package jp.okmt.notepad.memo
 
+import jp.okmt.notepad.data.MemoStore
 import java.time.Instant
 
 class Memo(
@@ -14,10 +15,16 @@ class Memo(
             return Memo(null, title, noteText, Instant.now(), Instant.now())
         }
 
-        fun load(id: Int) {
+        fun load(id: Int, store: MemoStore) {
             //todo 読み込み処理
         }
     }
 
+    fun save(store: MemoStore) {
+        store.write(this)
+    }
 
+    fun remove(store: MemoStore) {
+        store.remove(this)
+    }
 }
