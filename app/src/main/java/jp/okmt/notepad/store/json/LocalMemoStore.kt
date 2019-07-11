@@ -8,11 +8,13 @@ import java.io.File
 
 class LocalMemoStore : MemoStore {
     companion object {
-        const val locate = "memo/"
+        const val locate = "memo"
     }
 
+    private val index = JsonStoreIndex.get()
+
     private fun createFileInstance(id: Int): File {
-        return File("$locate$id.json")
+        return File("$locate/$id.json")
     }
 
     override fun read(id: Int): Memo {
@@ -21,7 +23,19 @@ class LocalMemoStore : MemoStore {
     }
 
     override fun write(memo: Memo) {
-        val memoData = MemoData(memo)
+        val memoData =
+            if (memo.id == null) {
+                val id = index.nextId
+
+                index.apply {
+                    nextId++
+                    save()
+                }
+
+                MemoData(id, memo)
+            } else
+                MemoData(memo)
+
         jacksonObjectMapper().writeValue(createFileInstance(memoData.id), memoData)
     }
 

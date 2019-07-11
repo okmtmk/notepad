@@ -11,4 +11,6 @@ data class MemoData(
     val updated_at: Instant
 ) {
     constructor(memo: Memo) : this(memo.id!!, memo.title, memo.noteText, memo.created_at, memo.updated_at)
+
+    constructor(id: Int, memo: Memo) : this(id, memo.title, memo.noteText, memo.created_at, memo.updated_at)
 }
