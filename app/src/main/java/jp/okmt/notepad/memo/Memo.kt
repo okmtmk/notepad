@@ -1,13 +1,23 @@
 package jp.okmt.notepad.memo
 
-class Memo {
-    private var id: Int? = null
+import java.time.Instant
 
-    constructor(id: Int) {
-        this.id = id
+class Memo(
+    val id: Int?,
+    var title: String,
+    var noteText: String,
+    val created_at: Instant,
+    var updated_at: Instant
+) {
+    companion object {
+        fun create(title: String, noteText: String): Memo {
+            return Memo(null, title, noteText, Instant.now(), Instant.now())
+        }
+
+        fun load(id: Int) {
+            //todo 読み込み処理
+        }
     }
 
-    constructor(title:String) {
-        //todo メモを新規作成する処理
-    }
+
 }
