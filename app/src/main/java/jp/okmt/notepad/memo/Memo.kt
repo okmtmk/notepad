@@ -15,8 +15,8 @@ class Memo(
             return Memo(null, title, noteText, Instant.now(), Instant.now())
         }
 
-        fun load(id: Int, store: MemoStore) {
-            //todo 読み込み処理
+        fun load(id: Int, store: MemoStore): Memo {
+            return store.read(id)
         }
     }
 
