@@ -6,10 +6,10 @@ import java.io.File
 
 class JsonStoreIndex(var nextId: Int) {
     companion object {
-        private const val indexFilPath = "${LocalMemoStore.locate}/index.json"
+        private const val indexFilePath = "${LocalMemoStore.locate}/index.json"
 
         fun get(): JsonStoreIndex {
-            File(indexFilPath).also { file ->
+            File(indexFilePath).also { file ->
                 if (file.exists()) {
                     return jacksonObjectMapper().readValue(file)
                 } else {
@@ -23,6 +23,6 @@ class JsonStoreIndex(var nextId: Int) {
     }
 
     fun save() {
-        jacksonObjectMapper().writeValue(File(indexFilPath), this)
+        jacksonObjectMapper().writeValue(File(indexFilePath), this)
     }
 }

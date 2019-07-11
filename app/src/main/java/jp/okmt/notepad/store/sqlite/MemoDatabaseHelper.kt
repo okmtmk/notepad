@@ -11,8 +11,8 @@ class MemoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, "memo.db"
         const val ID = "_id"
         const val TITLE = "title"
         const val FILEPATH = "filepath"
-        const val CREATED_AT = "created_at"
-        const val UPDATED_AT = "updated_at"
+        const val CREATED_AT = "createdAt"
+        const val UPDATED_AT = "updatedAt"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
