@@ -1,6 +1,6 @@
 package jp.okmt.notepad.memo
 
-import jp.okmt.notepad.data.MemoStore
+import jp.okmt.notepad.store.MemoStore
 import java.time.Instant
 
 class Memo(

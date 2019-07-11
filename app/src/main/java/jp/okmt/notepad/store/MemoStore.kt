@@ -1,4 +1,4 @@
-package jp.okmt.notepad.data
+package jp.okmt.notepad.store
 
 import jp.okmt.notepad.memo.Memo
 

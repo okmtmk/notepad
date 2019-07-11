@@ -1,4 +1,4 @@
-package jp.okmt.notepad.data.sqlite
+package jp.okmt.notepad.store.sqlite
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
