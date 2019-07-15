@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
 
-class JsonStoreIndex(var nextId: Int) {
+class JsonStoreIndex(var nextId: Long) {
     companion object {
         private const val indexFilePath = "${LocalMemoStore.locate}/index.json"
 

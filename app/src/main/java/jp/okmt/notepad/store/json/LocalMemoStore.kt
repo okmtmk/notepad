@@ -41,11 +41,11 @@ class LocalMemoStore : MemoStore {
             return list
         }
 
-    private fun createFileInstance(id: Int): File {
+    private fun createFileInstance(id: Long): File {
         return File("$memoLocate/$id.json")
     }
 
-    override fun read(id: Int): Memo {
+    override fun read(id: Long): Memo {
         val memoData = jacksonObjectMapper().readValue<MemoData>(createFileInstance(id))
         return Memo(
             memoData.id,

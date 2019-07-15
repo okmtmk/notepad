@@ -3,7 +3,7 @@ package jp.okmt.notepad.store.json
 import jp.okmt.notepad.memo.Memo
 
 data class MemoData(
-    val id: Int,
+    val id: Long,
     val title: String,
     val noteText: String,
     val createdAt: String,
@@ -17,7 +17,7 @@ data class MemoData(
         memo.updatedAt.toString()
     )
 
-    constructor(id: Int, memo: Memo) : this(
+    constructor(id: Long, memo: Memo) : this(
         id,
         memo.title,
         memo.noteText,

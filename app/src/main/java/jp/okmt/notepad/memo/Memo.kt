@@ -4,7 +4,7 @@ import jp.okmt.notepad.store.MemoStore
 import java.time.Instant
 
 class Memo(
-    val id: Int?,
+    val id: Long?,
     var title: String,
     var noteText: String,
     val createdAt: Instant,
