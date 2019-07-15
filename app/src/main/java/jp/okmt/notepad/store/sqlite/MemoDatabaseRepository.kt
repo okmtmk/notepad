@@ -3,6 +3,7 @@ package jp.okmt.notepad.store.sqlite
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import java.util.*
 
 object MemoDatabaseRepository {
     /**
@@ -10,7 +11,7 @@ object MemoDatabaseRepository {
      */
     fun insert(context: Context, record: MemoDatabaseRecord): MemoDatabaseRecord {
         MemoDatabaseHelper(context).writableDatabase.let { db ->
-            db.insert(
+            record.id = db.insert(
                 MemoDatabaseHelper.TABLE_NAME,
                 null,
                 putValues(record)
@@ -59,6 +60,7 @@ object MemoDatabaseRepository {
             null,
             null
         ).apply {
+            moveToFirst()
             val record = makeRecord(this)
             close()
             return record
@@ -81,9 +83,12 @@ object MemoDatabaseRepository {
         ).apply {
             val mutableList = mutableListOf<MemoDatabaseRecord>()
 
+            moveToFirst()
             while (!isLast) {
                 mutableList.add(makeRecord(this))
+                moveToNext()
             }
+
             close()
             return mutableList.toList()
         }
@@ -101,6 +106,47 @@ object MemoDatabaseRepository {
                 arrayOf(id.toString())
             )
         }
+    }
+
+    /**
+     * ランダムな文字列を発行する
+     */
+    fun getFileName(context: Context): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+        var text: String
+        do {
+            text = ""
+            (0..19).forEach { i ->
+                text += chars[Random().nextInt(chars.length)]
+            }
+        } while (isDuplicateFilename(context, text))
+
+        return text
+    }
+
+    /**
+     * ファイル名の重複を確認します
+     * @return 重複しているか否か
+     */
+    private fun isDuplicateFilename(context: Context, filename: String): Boolean {
+        val cursor = MemoDatabaseHelper(context).readableDatabase.query(
+            MemoDatabaseHelper.TABLE_NAME,
+            arrayOf(
+                MemoDatabaseHelper.ID, MemoDatabaseHelper.FILEPATH
+            ),
+            "${MemoDatabaseHelper.FILEPATH} = ?",
+            arrayOf(filename),
+            null,
+            null,
+            null,
+            null
+        )
+
+        val count = cursor.count
+        cursor.close()
+
+        return count > 0
     }
 
     /**

@@ -37,8 +37,8 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
 
     override fun write(memo: Memo) {
         if (memo.id == null) {
-            //todo ファイルへセーブする処理
-            val filepath = "test"
+            val filepath = MemoDatabaseRepository.getFileName(context)
+            AndroidLocalFile.write(context, filepath, memo.noteText)
 
             MemoDatabaseRepository.insert(
                 context,
@@ -52,7 +52,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
             )
         } else {
             MemoDatabaseRepository.find(context, memo.id).let { record ->
-                //todo ファイルへセーブする処理
+                AndroidLocalFile.write(context, record.filePath!!, memo.noteText)
 
                 MemoDatabaseRepository.update(
                     context,
@@ -72,8 +72,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
         memo.id ?: return false
 
         MemoDatabaseRepository.find(context, memo.id).let { record ->
-            //todo ファイルを削除する処理
-
+            AndroidLocalFile.remove(context, record.filePath!!)
             MemoDatabaseRepository.delete(context, memo.id)
         }
         return true

@@ -15,7 +15,7 @@ class Memo(
             return Memo(null, title, noteText, Instant.now(), Instant.now())
         }
 
-        fun load(id: Int, store: MemoStore): Memo {
+        fun load(id: Long, store: MemoStore): Memo {
             return store.read(id)
         }
 
