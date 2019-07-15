@@ -12,7 +12,7 @@ import java.time.Instant
 @RunWith(AndroidJUnit4::class)
 class MemoDatabaseRepositoryTest {
 
-    val context: Context
+    private val context: Context
         get() = InstrumentationRegistry.getTargetContext()
 
     @Test
