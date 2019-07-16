@@ -3,10 +3,15 @@ package jp.okmt.notepad.domain.list
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jp.okmt.notepad.R
+import jp.okmt.notepad.views.memo_list.MemoRecyclerViewAdapter
+import jp.okmt.notepad.views.memo_list.OnRecyclerClickListener
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
     lateinit var presenter: MemoListActivityContract.Presenter
@@ -20,6 +25,19 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
 
         fab.setOnClickListener { view ->
             //todo fabクリックイベント
+        }
+
+        recyclerView.let { view ->
+            view.layoutManager = LinearLayoutManager(this)
+            view.adapter = MemoRecyclerViewAdapter(
+                layoutInflater,
+                presenter.getMemoIndexes(this).toMutableList(),
+                this,
+                object : OnRecyclerClickListener {
+                    override fun onClick(v: View, position: Int) {
+                        notifySnackBar("position : $position")
+                    }
+                })
         }
     }
 
