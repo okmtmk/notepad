@@ -11,7 +11,7 @@ class Memo(
     var updatedAt: Instant
 ) {
     companion object {
-        fun create(title: String, noteText: String): Memo {
+        fun create(title: String, noteText: String = ""): Memo {
             return Memo(null, title, noteText, Instant.now(), Instant.now())
         }
 
