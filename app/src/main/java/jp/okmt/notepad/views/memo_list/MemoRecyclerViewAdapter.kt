@@ -14,20 +14,24 @@ class MemoRecyclerViewAdapter(
     private val inflater: LayoutInflater,
     private val list: MutableList<MemoIndex>,
     private val context: Context,
-    private val listener: OnRecyclerClickListener
+    private val listener: OnMemoListClickListener,
+    private val longListener: OnMemoListClickListener
 ) : RecyclerView.Adapter<MemoRecyclerViewAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.recycler_item_memo, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        list[position].apply {
-            holder.title.text = title
-            holder.subTitle.text = updated_at
-        }
+        holder.index = list[position]
 
         holder.itemView.setOnClickListener { view ->
-            listener.onClick(view, position)
+            listener.onClick(view, position, list[position])
+        }
+
+        holder.itemView.setOnLongClickListener {
+            longListener.onClick(it, position, list[position])
+            true
         }
     }
 
@@ -38,5 +42,17 @@ class MemoRecyclerViewAdapter(
     class ViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
         val title: TextView = viewItem.title
         val subTitle: TextView = viewItem.subtitle
+
+        private var _index: MemoIndex? = null
+
+        var index: MemoIndex?
+            set(value) {
+                _index = value
+                value ?: return
+
+                title.text = value.title
+                subTitle.text = value.updated_at
+            }
+            get() = _index
     }
 }

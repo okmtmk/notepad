@@ -1,5 +1,6 @@
 package jp.okmt.notepad.domain.list
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jp.okmt.notepad.R
+import jp.okmt.notepad.memo.Memo
+import jp.okmt.notepad.memo.MemoIndex
+import jp.okmt.notepad.store.sqlite.MemoDatabaseStore
+import jp.okmt.notepad.views.Dialogs
 import jp.okmt.notepad.views.memo_list.MemoRecyclerViewAdapter
-import jp.okmt.notepad.views.memo_list.OnRecyclerClickListener
+import jp.okmt.notepad.views.memo_list.OnMemoListClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -33,9 +38,25 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                 layoutInflater,
                 presenter.getMemoIndexes(this).toMutableList(),
                 this,
-                object : OnRecyclerClickListener {
-                    override fun onClick(v: View, position: Int) {
+                object : OnMemoListClickListener {
+                    // アイテムをクリックしたときのイベント
+                    override fun onClick(view: View, position: Int, index: MemoIndex) {
                         notifySnackBar("position : $position")
+                    }
+                },
+                object : OnMemoListClickListener {
+                    // アイテムを長押ししたときのイベント
+                    override fun onClick(view: View, position: Int, index: MemoIndex) {
+                        Dialogs.showDialog(
+                            this@MainActivity,
+                            resources.getString(R.string.memo_delete_confirm),
+                            index.title,
+                            DialogInterface.OnClickListener { dialog, which ->
+                                Memo.load(index.id, MemoDatabaseStore(this@MainActivity))
+                                    .remove(MemoDatabaseStore(this@MainActivity))
+                                recyclerView.removeItemDecorationAt(position)
+                            }, null
+                        )
                     }
                 })
         }
