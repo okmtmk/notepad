@@ -29,14 +29,21 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
         presenter = MemoListPresenter(this)
 
         fab.setOnClickListener { view ->
-            //todo fabクリックイベント
+            Memo.create("テスト作成メモ", "テスト").let { memo ->
+                memo.save(MemoDatabaseStore(this))
+
+            }
         }
 
+        setAdapter()
+    }
+
+    private fun setAdapter() {
         recyclerView.let { view ->
             view.layoutManager = LinearLayoutManager(this)
             view.adapter = MemoRecyclerViewAdapter(
                 layoutInflater,
-                presenter.getMemoIndexes(this).toMutableList(),
+                presenter.getMemoIndexes(this),
                 this,
                 object : OnMemoListClickListener {
                     // アイテムをクリックしたときのイベント
@@ -52,9 +59,13 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                             resources.getString(R.string.memo_delete_confirm),
                             index.title,
                             DialogInterface.OnClickListener { dialog, which ->
+                                presenter.deleteListItem(index)
+
                                 Memo.load(index.id, MemoDatabaseStore(this@MainActivity))
                                     .remove(MemoDatabaseStore(this@MainActivity))
-                                recyclerView.removeItemDecorationAt(position)
+
+                                recyclerView.adapter!!.notifyItemRemoved(position)
+
                             }, null
                         )
                     }

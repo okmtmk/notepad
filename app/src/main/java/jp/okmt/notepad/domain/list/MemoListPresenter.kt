@@ -7,9 +7,13 @@ import jp.okmt.notepad.store.sqlite.MemoDatabaseStore
 
 class MemoListPresenter(val view: MemoListActivityContract.View) :
     MemoListActivityContract.Presenter {
+    private var indexes: MutableList<MemoIndex>? = null
 
-    override fun getMemoIndexes(context: Context): List<MemoIndex> {
-        return Memo.getMemoIndexes(MemoDatabaseStore(context))
+    override fun getMemoIndexes(context: Context): MutableList<MemoIndex> {
+        if (indexes == null) {
+            indexes = Memo.getMemoIndexes(MemoDatabaseStore(context)).toMutableList()
+        }
+        return indexes!!
     }
 
     override fun deleteMemo(context: Context, id: Long) {
@@ -18,5 +22,9 @@ class MemoListPresenter(val view: MemoListActivityContract.View) :
                 remove(store)
             }
         }
+    }
+
+    override fun deleteListItem(elem: MemoIndex) {
+        indexes!!.remove(elem)
     }
 }
