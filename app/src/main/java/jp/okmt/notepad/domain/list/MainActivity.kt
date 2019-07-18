@@ -64,7 +64,9 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                         Dialogs.showMemoDeleteDialog(
                             this@MainActivity,
                             DialogInterface.OnClickListener { _, _ ->
+                                presenter.deleteListItem(index)
                                 Memo.load(index.id, MemoDatabaseStore(this@MainActivity)).delete()
+                                recyclerView.adapter?.notifyItemRemoved(position)
                             }
                         )
                     }

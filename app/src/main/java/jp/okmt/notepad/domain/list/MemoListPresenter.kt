@@ -17,12 +17,12 @@ class MemoListPresenter(val view: MemoListActivityContract.View) :
     }
 
     override fun deleteMemo(context: Context, index: MemoIndex) {
+        deleteListItem(index)
         MemoDatabaseStore(context).let { store ->
             Memo.load(index.id, store).apply {
                 delete()
             }
         }
-        deleteListItem(index)
     }
 
     override fun deleteListItem(elem: MemoIndex) {
