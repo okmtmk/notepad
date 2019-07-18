@@ -18,8 +18,8 @@ class MemoAndroidTest {
 
     @Test
     fun testSaveMemo() {
-        val memo = Memo.create("title", "メモ本文")
-        memo.save(store)
+        val memo = Memo.create(store, "title", "メモ本文")
+        memo.save()
     }
 
     @Test
@@ -36,6 +36,6 @@ class MemoAndroidTest {
     @Test
     fun testRemoveMemo() {
         val memo = Memo.load(Memo.getMemoIndexes(store)[0].id, store)
-        memo.remove(store)
+        memo.remove()
     }
 }

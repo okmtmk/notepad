@@ -26,6 +26,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
     override fun read(id: Long): Memo {
         MemoDatabaseRepository.find(context, id).let { record ->
             return Memo(
+                this,
                 record.id,
                 record.title,
                 "test",

@@ -13,15 +13,15 @@ class MemoTest {
 
     @Test
     fun testCreateMemo() {
-        Memo.create(title, noteText).apply {
+        Memo.create(store, title, noteText).apply {
             assert(this is Memo)
         }
     }
 
     @Test
     fun testSaveMemo() {
-        Memo.create(title, noteText).apply {
-            save(LocalMemoStore())
+        Memo.create(store, title, noteText).apply {
+            save()
         }
     }
 
@@ -40,7 +40,8 @@ class MemoTest {
     @Test
     fun testRemoveMemo() {
         store.apply {
-            assert(Memo.load(1, this).remove(this))
+            val list = Memo.getMemoIndexes(store)
+            assert(Memo.load(list[0].id, this).remove())
         }
     }
 }

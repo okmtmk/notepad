@@ -4,6 +4,7 @@ import jp.okmt.notepad.store.MemoStore
 import java.time.Instant
 
 class Memo(
+    private var store: MemoStore,
     val id: Long?,
     var title: String,
     var noteText: String,
@@ -11,8 +12,8 @@ class Memo(
     var updatedAt: Instant
 ) {
     companion object {
-        fun create(title: String, noteText: String = ""): Memo {
-            return Memo(null, title, noteText, Instant.now(), Instant.now())
+        fun create(store: MemoStore, title: String, noteText: String = ""): Memo {
+            return Memo(store, null, title, noteText, Instant.now(), Instant.now())
         }
 
         fun load(id: Long, store: MemoStore): Memo {
@@ -24,12 +25,12 @@ class Memo(
         }
     }
 
-    fun save(store: MemoStore) {
+    fun save() {
         updatedAt = Instant.now()
         store.write(this)
     }
 
-    fun remove(store: MemoStore): Boolean {
+    fun remove(): Boolean {
         return store.remove(this)
     }
 }

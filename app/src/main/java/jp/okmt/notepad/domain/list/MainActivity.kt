@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
         presenter = MemoListPresenter(this)
 
         fab.setOnClickListener { view ->
-            Memo.create("テスト作成メモ", "テスト").let { memo ->
-                memo.save(MemoDatabaseStore(this))
-
-            }
+            //            Memo.create("テスト作成メモ", "テスト").let { memo ->
+//                memo.save(MemoDatabaseStore(this))
+//
+//            }
         }
 
         setAdapter()
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                                 presenter.deleteListItem(index)
 
                                 Memo.load(index.id, MemoDatabaseStore(this@MainActivity))
-                                    .remove(MemoDatabaseStore(this@MainActivity))
+                                    .remove()
 
                                 recyclerView.adapter!!.notifyItemRemoved(position)
 
