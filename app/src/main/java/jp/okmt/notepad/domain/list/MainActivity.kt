@@ -55,7 +55,10 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                 object : OnMemoListClickListener {
                     // アイテムをクリックしたときのイベント
                     override fun onClick(view: View, position: Int, index: MemoIndex) {
-                        notifySnackBar("position : $position")
+                        Intent(applicationContext, EditActivity::class.java).apply {
+                            putExtra(Constants.MEMO_ID, index.id)
+                            startActivityForResult(this, EDITOR_RETURN_RESULT_ID)
+                        }
                     }
                 },
                 object : OnMemoListClickListener {

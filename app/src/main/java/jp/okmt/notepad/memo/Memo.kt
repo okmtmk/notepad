@@ -5,7 +5,7 @@ import java.time.Instant
 
 class Memo(
     private var store: MemoStore,
-    var id: Long?,
+    val id: Long?,
     var title: String,
     var noteText: String,
     val createdAt: Instant,

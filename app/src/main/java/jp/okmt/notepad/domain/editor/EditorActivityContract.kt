@@ -9,6 +9,7 @@ interface EditorActivityContract {
     }
 
     interface Presenter {
-        fun saveMemo(title: String, noteText: String):Long
+        val isCreateNew: Boolean
+        fun saveMemo(title: String, noteText: String): Long
     }
 }

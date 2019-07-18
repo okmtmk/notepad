@@ -54,7 +54,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                 return id!!
             }
         } else {
-            MemoDatabaseRepository.find(context, memo.id!!).let { record ->
+            MemoDatabaseRepository.find(context, memo.id).let { record ->
                 AndroidLocalFile.write(context, record.filePath!!, memo.noteText)
 
                 MemoDatabaseRepository.update(
@@ -68,16 +68,16 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                     )
                 )
             }
-            return memo.id!!
+            return memo.id
         }
     }
 
     override fun delete(memo: Memo): Boolean {
         memo.id ?: return false
 
-        MemoDatabaseRepository.find(context, memo.id!!).let { record ->
+        MemoDatabaseRepository.find(context, memo.id).let { record ->
             AndroidLocalFile.remove(context, record.filePath!!)
-            MemoDatabaseRepository.delete(context, memo.id!!)
+            MemoDatabaseRepository.delete(context, memo.id)
         }
         return true
     }

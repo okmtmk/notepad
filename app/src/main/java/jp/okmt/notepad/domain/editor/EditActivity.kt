@@ -36,7 +36,7 @@ class EditActivity : AppCompatActivity(), EditorActivityContract.View {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
-        presenter = EditorActivityPresenter(this, this, intent.getLongExtra("memo_id", -1))
+        presenter = EditorActivityPresenter(this, this, intent.getLongExtra(Constants.MEMO_ID, -1))
     }
 
     override fun onBackPressed() {
@@ -45,10 +45,13 @@ class EditActivity : AppCompatActivity(), EditorActivityContract.View {
                 super.onBackPressed()
             })
         } else {
+            val isCreateNew = presenter.isCreateNew
             presenter.saveMemo(title, noteText).let { id ->
-                Intent().apply {
-                    putExtra(Constants.MEMO_ID, id)
-                    setResult(Activity.RESULT_OK, this)
+                if (presenter.isCreateNew) {
+                    Intent().apply {
+                        putExtra(Constants.MEMO_ID, id)
+                        setResult(Activity.RESULT_OK, this)
+                    }
                 }
                 super.onBackPressed()
             }
