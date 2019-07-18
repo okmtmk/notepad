@@ -45,7 +45,6 @@ class EditActivity : AppCompatActivity(), EditorActivityContract.View {
                 super.onBackPressed()
             })
         } else {
-            val isCreateNew = presenter.isCreateNew
             presenter.saveMemo(title, noteText).let { id ->
                 if (presenter.isCreateNew) {
                     Intent().apply {
