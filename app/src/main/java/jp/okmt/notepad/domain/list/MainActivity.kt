@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jp.okmt.notepad.R
-import jp.okmt.notepad.memo.Memo
 import jp.okmt.notepad.memo.MemoIndex
-import jp.okmt.notepad.store.sqlite.MemoDatabaseStore
 import jp.okmt.notepad.views.Dialogs
 import jp.okmt.notepad.views.memo_list.MemoRecyclerViewAdapter
 import jp.okmt.notepad.views.memo_list.OnMemoListClickListener
@@ -29,10 +27,7 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
         presenter = MemoListPresenter(this)
 
         fab.setOnClickListener { view ->
-            //            Memo.create("テスト作成メモ", "テスト").let { memo ->
-//                memo.save(MemoDatabaseStore(this))
-//
-//            }
+
         }
 
         setAdapter()
@@ -58,14 +53,9 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                             this@MainActivity,
                             resources.getString(R.string.memo_delete_confirm),
                             index.title,
-                            DialogInterface.OnClickListener { dialog, which ->
-                                presenter.deleteListItem(index)
-
-                                Memo.load(index.id, MemoDatabaseStore(this@MainActivity))
-                                    .remove()
-
+                            DialogInterface.OnClickListener { _, _ ->
+                                presenter.deleteMemo(this@MainActivity, index)
                                 recyclerView.adapter!!.notifyItemRemoved(position)
-
                             }, null
                         )
                     }
@@ -91,9 +81,5 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
 
     override fun notifySnackBar(message: String) {
         Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show()
-    }
-
-    override fun deleteRecyclerViewElem(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
