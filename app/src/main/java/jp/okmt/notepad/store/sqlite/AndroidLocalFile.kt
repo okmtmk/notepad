@@ -9,7 +9,7 @@ object AndroidLocalFile {
      * アプリの内部領域にファイルを作成し保存する
      */
     fun write(context: Context, filepath: String, text: String) {
-        context.openFileOutput(filepath, Context.MODE_APPEND).write(text.toByteArray())
+        context.openFileOutput(filepath, Context.MODE_PRIVATE).write(text.toByteArray())
     }
 
     /**

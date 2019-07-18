@@ -29,7 +29,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                 this,
                 record.id,
                 record.title,
-                "test",
+                AndroidLocalFile.read(context, record.filePath!!),
                 Instant.parse(record.created_at),
                 Instant.parse(record.updated_at)
             )
