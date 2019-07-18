@@ -28,4 +28,11 @@ class MemoListPresenter(val view: MemoListActivityContract.View) :
     override fun deleteListItem(elem: MemoIndex) {
         indexes!!.remove(elem)
     }
+
+    override fun addMemoToList(context: Context, memo_id: Long): Int {
+        Memo.load(memo_id, MemoDatabaseStore(context)).let { memo ->
+            indexes!!.add(memo.toMemoIndex())
+        }
+        return indexes!!.size - 1
+    }
 }

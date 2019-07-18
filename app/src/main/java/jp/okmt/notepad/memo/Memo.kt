@@ -33,4 +33,8 @@ class Memo(
     fun remove(): Boolean {
         return store.remove(this)
     }
+
+    fun toMemoIndex(): MemoIndex {
+        return MemoIndex(id!!, title, createdAt.toString(), updatedAt.toString())
+    }
 }

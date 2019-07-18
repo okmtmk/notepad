@@ -1,6 +1,8 @@
 package jp.okmt.notepad.domain.list
 
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jp.okmt.notepad.R
+import jp.okmt.notepad.domain.editor.EditActivity
 import jp.okmt.notepad.memo.MemoIndex
 import jp.okmt.notepad.views.Dialogs
 import jp.okmt.notepad.views.memo_list.MemoRecyclerViewAdapter
@@ -17,6 +20,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
+    companion object {
+        const val EDITOR_RETURN_RESULT_ID = 3939
+    }
+
     lateinit var presenter: MemoListActivityContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +34,9 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
         presenter = MemoListPresenter(this)
 
         fab.setOnClickListener { view ->
-
+            Intent(application, EditActivity::class.java).apply {
+                startActivityForResult(this, EDITOR_RETURN_RESULT_ID)
+            }
         }
         setAdapter()
     }
@@ -80,5 +89,19 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
 
     override fun notifySnackBar(message: String) {
         Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // エディタ画面から戻ってきた時
+        if (resultCode == Activity.RESULT_OK &&
+            requestCode == EDITOR_RETURN_RESULT_ID &&
+            data != null
+        ) {
+            presenter.addMemoToList(this, intent.getLongExtra("memo_id", -1)).apply {
+                recyclerView.adapter?.notifyItemInserted(this)
+            }
+        }
     }
 }

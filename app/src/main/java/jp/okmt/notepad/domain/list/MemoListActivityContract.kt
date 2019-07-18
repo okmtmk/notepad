@@ -10,6 +10,7 @@ interface MemoListActivityContract {
 
     interface Presenter {
         fun getMemoIndexes(context: Context): MutableList<MemoIndex>
+        fun addMemoToList(context: Context, memo_id: Long): Int
         fun deleteMemo(context: Context, index: MemoIndex)
         fun deleteListItem(elem: MemoIndex)
     }
