@@ -5,14 +5,14 @@ import java.time.Instant
 
 class Memo(
     private var store: MemoStore,
-    val id: Long?,
+    var id: Long?,
     var title: String,
     var noteText: String,
     val createdAt: Instant,
     var updatedAt: Instant
 ) {
     companion object {
-        fun create(store: MemoStore, title: String, noteText: String = ""): Memo {
+        fun create(store: MemoStore, title: String = "", noteText: String = ""): Memo {
             return Memo(store, null, title, noteText, Instant.now(), Instant.now())
         }
 
@@ -25,13 +25,13 @@ class Memo(
         }
     }
 
-    fun save() {
+    fun save(): Long {
         updatedAt = Instant.now()
-        store.write(this)
+        return store.write(this)
     }
 
-    fun remove(): Boolean {
-        return store.remove(this)
+    fun delete(): Boolean {
+        return store.delete(this)
     }
 
     fun toMemoIndex(): MemoIndex {

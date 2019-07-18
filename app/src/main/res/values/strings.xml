@@ -5,4 +5,8 @@
     <string name="subtitle">Sub Title</string>
     <string name="memo_delete_confirm">Delete note?</string>
     <string name="nothing">There is nothing to display :(</string>
+    <string name="edit">Edit Note</string>
+    <string name="noteText">Note Text</string>
+    <string name="confirm_return_back">Back to List?</string>
+    <string name="confirm_return_back_desc">The note being edited is discarded.</string>
 </resources>

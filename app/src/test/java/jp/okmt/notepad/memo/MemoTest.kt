@@ -41,7 +41,7 @@ class MemoTest {
     fun testRemoveMemo() {
         store.apply {
             val list = Memo.getMemoIndexes(store)
-            assert(Memo.load(list[0].id, this).remove())
+            assert(Memo.load(list[0].id, this).delete())
         }
     }
 }

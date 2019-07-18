@@ -4,15 +4,19 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import jp.okmt.notepad.Constants
 import jp.okmt.notepad.R
 import jp.okmt.notepad.domain.editor.EditActivity
+import jp.okmt.notepad.memo.Memo
 import jp.okmt.notepad.memo.MemoIndex
+import jp.okmt.notepad.store.sqlite.MemoDatabaseStore
 import jp.okmt.notepad.views.Dialogs
 import jp.okmt.notepad.views.memo_list.MemoRecyclerViewAdapter
 import jp.okmt.notepad.views.memo_list.OnMemoListClickListener
@@ -33,8 +37,8 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
 
         presenter = MemoListPresenter(this)
 
-        fab.setOnClickListener { view ->
-            Intent(application, EditActivity::class.java).apply {
+        fab.setOnClickListener {
+            Intent(applicationContext, EditActivity::class.java).apply {
                 startActivityForResult(this, EDITOR_RETURN_RESULT_ID)
             }
         }
@@ -57,14 +61,11 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
                 object : OnMemoListClickListener {
                     // アイテムを長押ししたときのイベント
                     override fun onClick(view: View, position: Int, index: MemoIndex) {
-                        Dialogs.showDialog(
+                        Dialogs.showMemoDeleteDialog(
                             this@MainActivity,
-                            resources.getString(R.string.memo_delete_confirm),
-                            index.title,
                             DialogInterface.OnClickListener { _, _ ->
-                                presenter.deleteMemo(this@MainActivity, index)
-                                recyclerView.adapter!!.notifyItemRemoved(position)
-                            }, null
+                                Memo.load(index.id, MemoDatabaseStore(this@MainActivity)).delete()
+                            }
                         )
                     }
                 })
@@ -99,7 +100,8 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
             requestCode == EDITOR_RETURN_RESULT_ID &&
             data != null
         ) {
-            presenter.addMemoToList(this, intent.getLongExtra("memo_id", -1)).apply {
+            presenter.addMemoToList(this, data.getLongExtra(Constants.MEMO_ID, -1)).apply {
+                Log.i("inserted memo", this.toString())
                 recyclerView.adapter?.notifyItemInserted(this)
             }
         }

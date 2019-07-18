@@ -36,7 +36,7 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
         }
     }
 
-    override fun write(memo: Memo) {
+    override fun write(memo: Memo): Long {
         if (memo.id == null) {
             val filepath = MemoDatabaseRepository.getFileName(context)
             AndroidLocalFile.write(context, filepath, memo.noteText)
@@ -50,9 +50,11 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                     memo.createdAt.toString(),
                     memo.updatedAt.toString()
                 )
-            )
+            ).apply {
+                return id!!
+            }
         } else {
-            MemoDatabaseRepository.find(context, memo.id).let { record ->
+            MemoDatabaseRepository.find(context, memo.id!!).let { record ->
                 AndroidLocalFile.write(context, record.filePath!!, memo.noteText)
 
                 MemoDatabaseRepository.update(
@@ -66,15 +68,16 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                     )
                 )
             }
+            return memo.id!!
         }
     }
 
-    override fun remove(memo: Memo): Boolean {
+    override fun delete(memo: Memo): Boolean {
         memo.id ?: return false
 
-        MemoDatabaseRepository.find(context, memo.id).let { record ->
+        MemoDatabaseRepository.find(context, memo.id!!).let { record ->
             AndroidLocalFile.remove(context, record.filePath!!)
-            MemoDatabaseRepository.delete(context, memo.id)
+            MemoDatabaseRepository.delete(context, memo.id!!)
         }
         return true
     }

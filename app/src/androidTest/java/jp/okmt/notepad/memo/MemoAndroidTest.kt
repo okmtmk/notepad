@@ -36,6 +36,6 @@ class MemoAndroidTest {
     @Test
     fun testRemoveMemo() {
         val memo = Memo.load(Memo.getMemoIndexes(store)[0].id, store)
-        memo.remove()
+        memo.delete()
     }
 }

@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".domain.editor.EditActivity">
+        tools:context=".domain.editor.EditActivity" android:id="@+id/constraintLayout">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -37,20 +37,20 @@
                     <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/title"/>
+                            android:hint="@string/title" android:id="@+id/titleView"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:id="@+id/editText" app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                        android:id="@+id/noteTextView" app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
                         android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginStart="16dp" app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
                         android:inputType="textMultiLine" style="@style/Widget.AppCompat.EditText"
                         android:background="#00000000"
                         android:gravity="top"
-                        android:minHeight="200dp" android:importantForAutofill="no"/>
+                        android:minHeight="200dp" android:importantForAutofill="no" android:hint="@string/noteText"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

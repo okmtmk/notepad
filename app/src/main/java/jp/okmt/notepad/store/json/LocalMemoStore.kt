@@ -57,7 +57,7 @@ class LocalMemoStore : MemoStore {
         )
     }
 
-    override fun write(memo: Memo) {
+    override fun write(memo: Memo): Long {
         val memoData =
             if (memo.id == null) {
                 val id = index.nextId
@@ -66,18 +66,20 @@ class LocalMemoStore : MemoStore {
                     nextId++
                     save()
                 }
-
                 MemoData(id, memo)
-            } else
+            } else {
                 MemoData(memo)
+            }
 
         jacksonObjectMapper().writeValue(createFileInstance(memoData.id), memoData)
+
+        return memoData.id
     }
 
-    override fun remove(memo: Memo): Boolean {
+    override fun delete(memo: Memo): Boolean {
         memo.id ?: return false
 
-        createFileInstance(memo.id).apply {
+        createFileInstance(memo.id!!).apply {
             return if (this.exists()) {
                 this.delete()
             } else {
