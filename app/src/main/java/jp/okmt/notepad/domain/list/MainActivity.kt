@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
         fab.setOnClickListener { view ->
 
         }
-
         setAdapter()
     }
 
