@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import jp.okmt.notepad.Constants
 import jp.okmt.notepad.R
+import jp.okmt.notepad.domain.list.MainActivity
 import jp.okmt.notepad.views.Dialogs
 import kotlinx.android.synthetic.main.activity_edit.*
 
@@ -46,14 +47,19 @@ class EditActivity : AppCompatActivity(), EditorActivityContract.View {
             })
         } else {
             presenter.saveMemo(title, noteText).let { id ->
-                if (presenter.isCreateNew) {
-                    Intent().apply {
-                        putExtra(Constants.MEMO_ID, id)
-                        setResult(Activity.RESULT_OK, this)
+                Intent().apply {
+                    if (presenter.isCreateNew) {
+                        putExtra(MainActivity.RESULT_ID, MainActivity.MEMO_ADDED_RESULT_ID)
+                    } else {
+                        putExtra(MainActivity.RESULT_ID, MainActivity.MEMO_UPDATED_RESULT_ID)
                     }
+                    putExtra(Constants.MEMO_ID, id)
+                    setResult(Activity.RESULT_OK, this)
                 }
-                super.onBackPressed()
+
             }
+
+            super.onBackPressed()
 
         }
     }

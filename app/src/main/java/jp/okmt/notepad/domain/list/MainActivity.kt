@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,7 +24,11 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
     companion object {
+        const val RESULT_ID = "resultId"
         const val EDITOR_RETURN_RESULT_ID = 3939
+        const val MEMO_ADDED_RESULT_ID = 4000
+        const val MEMO_UPDATED_RESULT_ID = 4001
+
     }
 
     lateinit var presenter: MemoListActivityContract.Presenter
@@ -105,10 +108,20 @@ class MainActivity : AppCompatActivity(), MemoListActivityContract.View {
             requestCode == EDITOR_RETURN_RESULT_ID &&
             data != null
         ) {
-            presenter.addMemoToList(this, data.getLongExtra(Constants.MEMO_ID, -1)).apply {
-                Log.i("inserted memo", this.toString())
-                recyclerView.adapter?.notifyItemInserted(this)
+            when (data.getIntExtra(RESULT_ID, -1)) {
+                MEMO_ADDED_RESULT_ID -> {
+                    presenter.addMemoToList(this, data.getLongExtra(Constants.MEMO_ID, -1)).apply {
+                        recyclerView.adapter?.notifyItemInserted(this)
+                    }
+                }
+
+                MEMO_UPDATED_RESULT_ID -> {
+                    val position = presenter.updateMemoItem(this, data.getLongExtra(Constants.MEMO_ID, -1))
+                    recyclerView.adapter?.notifyItemChanged(position)
+                }
             }
+
+
         }
     }
 }

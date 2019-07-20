@@ -35,4 +35,14 @@ class MemoListPresenter(val view: MemoListActivityContract.View) :
         }
         return indexes!!.size
     }
+
+    override fun updateMemoItem(context: Context, memoId: Long): Int {
+        indexes?.forEachIndexed { index, memoIndex ->
+            if (memoIndex.id == memoId) {
+                indexes?.set(index, Memo.load(memoId, MemoDatabaseStore(context)).toMemoIndex())
+                return index
+            }
+        }
+        return -1
+    }
 }

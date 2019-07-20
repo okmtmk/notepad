@@ -13,5 +13,6 @@ interface MemoListActivityContract {
         fun addMemoToList(context: Context, memo_id: Long): Int
         fun deleteMemo(context: Context, index: MemoIndex)
         fun deleteListItem(elem: MemoIndex)
+        fun updateMemoItem(context: Context, memoId: Long):Int
     }
 }
