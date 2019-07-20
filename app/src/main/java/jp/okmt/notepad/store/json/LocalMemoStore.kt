@@ -35,7 +35,7 @@ class LocalMemoStore : MemoStore {
             val list = mutableListOf<MemoIndex>()
             File(memoLocate).listFiles().forEach {
                 jacksonObjectMapper().readValue<MemoData>(it).apply {
-                    list.add(MemoIndex(id, title, createdAt, updatedAt))
+                    list.add(MemoIndex(id, title, Instant.parse(createdAt), Instant.parse(updatedAt)))
                 }
             }
             return list
@@ -79,7 +79,7 @@ class LocalMemoStore : MemoStore {
     override fun delete(memo: Memo): Boolean {
         memo.id ?: return false
 
-        createFileInstance(memo.id!!).apply {
+        createFileInstance(memo.id).apply {
             return if (this.exists()) {
                 this.delete()
             } else {

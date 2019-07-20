@@ -9,4 +9,5 @@
     <string name="noteText">Note Text</string>
     <string name="confirm_return_back">Back to List?</string>
     <string name="confirm_return_back_desc">The note being edited is discarded.</string>
+    <string name="updated_at">Updated at</string>
 </resources>

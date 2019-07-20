@@ -15,8 +15,8 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                     MemoIndex(
                         memo.id!!,
                         memo.title,
-                        memo.created_at,
-                        memo.updated_at
+                        Instant.parse(memo.createdAt),
+                        Instant.parse(memo.updatedAt)
                     )
                 )
             }
@@ -30,8 +30,8 @@ class MemoDatabaseStore(private val context: Context) : MemoStore {
                 record.id,
                 record.title,
                 AndroidLocalFile.read(context, record.filePath!!),
-                Instant.parse(record.created_at),
-                Instant.parse(record.updated_at)
+                Instant.parse(record.createdAt),
+                Instant.parse(record.updatedAt)
             )
         }
     }

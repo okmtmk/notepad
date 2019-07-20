@@ -117,7 +117,7 @@ object MemoDatabaseRepository {
         var text: String
         do {
             text = ""
-            (0..19).forEach { i ->
+            (0..19).forEach { _ ->
                 text += chars[Random().nextInt(chars.length)]
             }
         } while (isDuplicateFilename(context, text))
@@ -156,8 +156,8 @@ object MemoDatabaseRepository {
         ContentValues().apply {
             put(MemoDatabaseHelper.TITLE, record.title)
             put(MemoDatabaseHelper.FILEPATH, record.filePath)
-            put(MemoDatabaseHelper.CREATED_AT, record.created_at)
-            put(MemoDatabaseHelper.UPDATED_AT, record.updated_at)
+            put(MemoDatabaseHelper.CREATED_AT, record.createdAt)
+            put(MemoDatabaseHelper.UPDATED_AT, record.updatedAt)
             return this
         }
     }

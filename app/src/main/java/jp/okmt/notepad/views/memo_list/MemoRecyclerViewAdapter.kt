@@ -51,7 +51,7 @@ class MemoRecyclerViewAdapter(
                 value ?: return
 
                 title.text = value.title
-                subTitle.text = value.updated_at
+                subTitle.text = value.updatedAt
             }
             get() = _index
     }

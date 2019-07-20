@@ -35,6 +35,11 @@ class Memo(
     }
 
     fun toMemoIndex(): MemoIndex {
-        return MemoIndex(id!!, title, createdAt.toString(), updatedAt.toString())
+        return MemoIndex(
+            id!!,
+            title,
+            createdAt,
+            updatedAt
+        )
     }
 }
