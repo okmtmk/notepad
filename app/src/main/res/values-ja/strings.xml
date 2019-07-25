@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notepad</string>
+    <string name="action_settings">設定</string>
+    <string name="title">タイトル</string>
+    <string name="subtitle">サブタイトル</string>
+    <string name="memo_delete_confirm">削除してよろしいですか？</string>
+    <string name="edit">編集</string>
+    <string name="noteText">メモ</string>
+    <string name="confirm_return_back">リストに戻ってよろしいですか？</string>
+    <string name="confirm_return_back_desc">編集中のメモは破棄されます。</string>
+    <string name="updated_at">最終更新</string>
+    <string name="nothing">表示するものがありません！</string>
+</resources>
